@@ -1,0 +1,13 @@
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;  /* kolom tengah 2x lebih lebar */
+    gap: 10px;
+}
+
+.cell {
+    background-color: lightcoral;
+    border: 2px solid darkred;
+    padding: 30px;
+    text-align: center;
+    font-size: 20px;
+}

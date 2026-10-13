@@ -1,0 +1,28 @@
+/* Default: untuk ponsel (layar kecil) */
+.konten {
+    display: grid;
+    grid-template-columns: 1fr;  /* 1 kolom di ponsel */
+    gap: 15px;
+}
+
+.kartu {
+    background-color: #27ae60;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+/* Layar >= 600px (tablet) */
+@media (min-width: 600px) {
+    .konten {
+        grid-template-columns: 1fr 1fr;  /* 2 kolom */
+    }
+}
+
+/* Layar >= 992px (desktop) */
+@media (min-width: 992px) {
+    .konten {
+        grid-template-columns: 1fr 1fr 1fr;  /* 3 kolom */
+    }
+}

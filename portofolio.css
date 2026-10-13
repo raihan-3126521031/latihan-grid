@@ -1,0 +1,222 @@
+:root {
+  --bg-primary: #f8fafc;
+  --bg-surface: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --primary-accent: #2563eb;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --radius: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  line-height: 1.6;
+  color: var(--text-main);
+  background-color: var(--bg-primary);
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* Header & Navigasi */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.nav-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.875rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-main);
+}
+
+.menu {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+}
+
+.menu a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.menu a:hover {
+  color: var(--primary-accent);
+}
+
+/* Kontainer Utama */
+.tentang, .proyek {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem;
+}
+
+.tentang h2, .proyek h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+}
+
+.tentang {
+  text-align: center;
+  max-width: 760px;
+  padding-top: 3.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.tentang p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.proyek h2 {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+/* Grid Proyek (Mobile-First: 1 Kolom) */
+.grid-proyek {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+/* Kartu */
+.kartu {
+  background-color: var(--bg-surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kartu:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Rasio Gambar Presisi & Bebas Distorsi */
+.kartu-img-wrapper {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+.kartu-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.kartu:hover .kartu-img-wrapper img {
+  transform: scale(1.03);
+}
+
+/* Teks Kartu */
+.kartu-konten {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.kartu-konten h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+
+.kartu-konten p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem 1.25rem;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-top: 3rem;
+}
+
+/* Tablet (2 Kolom) */
+@media (min-width: 640px) {
+  .nav-container {
+    padding: 1rem 2rem;
+  }
+
+  .tentang, .proyek {
+    padding: 3rem 2rem;
+  }
+
+  .grid-proyek {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+/* Desktop (3 Kolom) */
+@media (min-width: 1024px) {
+  .nav-container {
+    padding: 1.2rem 0;
+  }
+
+  .tentang, .proyek {
+    padding: 4rem 0;
+  }
+
+  .grid-proyek {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .kartu-img-wrapper {
+    aspect-ratio: 16 / 10;
+  }
+}
