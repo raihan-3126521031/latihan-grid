@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kontak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Doto:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ece7dc;
+    --surface: #f7f3ea;
+    --surface-2: #e2dccd;
+    --ink: #151412;
+    --muted: #6d675c;
+    --line: #d5cebd;
+    --red: #d71921;
+    --on-red: #ffffff;
+    --shadow: 0 24px 60px -28px rgba(40, 30, 10, .45);
+    --display: "Doto", "Courier New", monospace;
+    --body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e0e0f;
+      --surface: #1a1a1c;
+      --surface-2: #26262a;
+      --ink: #f2efe8;
+      --muted: #9a968c;
+      --line: #34343a;
+      --shadow: 0 24px 60px -28px rgba(0, 0, 0, .8);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { height: 100%; }
+  body {
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    line-height: 1.5;
+    padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+  svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  /* ===== Jendela aplikasi ===== */
+  .window {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 100dvh;
+    background: var(--bg);
+  }
+  .sidebar { display: none; }
+  .main { padding: 20px 18px 130px; max-width: 760px; width: 100%; margin: 0 auto; }
+
+  .topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .back {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--line);
+    display: grid; place-items: center;
+  }
+  .status {
+    margin-left: auto; display: inline-flex; align-items: center; gap: 8px;
+    background: var(--ink); color: var(--bg);
+    border-radius: 999px; padding: 8px 14px; font-size: .8rem; font-weight: 500;
+  }
+  .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+
+  h1 {
+    font-family: var(--display); font-weight: 900;
+    font-size: clamp(3.2rem, 15vw, 5.6rem); line-height: .95; letter-spacing: .01em;
+  }
+  .lead { margin-top: 14px; color: var(--muted); max-width: 46ch; }
+
+  /* ===== Widget kontak ===== */
+  .widgets {
+    margin-top: 28px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+  }
+  .w {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 28px; padding: 18px;
+    display: flex; flex-direction: column; justify-content: space-between; gap: 22px;
+    min-height: 140px; text-align: left; font: inherit; color: inherit; cursor: pointer;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .w:hover { background: var(--surface-2); }
+  .w:active { transform: scale(.98); }
+  .w small { color: var(--muted); font-size: .78rem; display: block; }
+  .w strong { font-weight: 700; font-size: 1rem; word-break: break-word; }
+  .w.wide { grid-column: 1 / -1; min-height: 0; flex-direction: row; align-items: center; border-radius: 999px; padding: 14px 18px 14px 14px; }
+  .w.wide .ico { background: var(--red); color: var(--on-red); }
+  .ico { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; }
+  .w.wide .txt { flex: 1; min-width: 0; }
+  .w.wide .act { font-size: .8rem; color: var(--muted); }
+  .w.round { border-radius: 50% / 40%; }
+
+  /* ===== Formulir ===== */
+  .card {
+    margin-top: 12px; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 32px; padding: 22px;
+  }
+  .card h2 { font-family: var(--display); font-weight: 900; font-size: 1.7rem; line-height: 1; }
+  .card p { color: var(--muted); font-size: .9rem; margin: 8px 0 18px; }
+  label { display: block; font-size: .82rem; font-weight: 500; margin: 14px 0 6px; }
+  input, textarea {
+    width: 100%; font: inherit; color: inherit;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 18px; padding: 13px 16px;
+  }
+  textarea { resize: vertical; min-height: 120px; border-radius: 22px; }
+  input:focus, textarea:focus { outline: 2px solid var(--red); outline-offset: 1px; border-color: transparent; }
+  .send {
+    margin-top: 20px; width: 100%; border: 0; cursor: pointer;
+    background: var(--red); color: var(--on-red);
+    font: inherit; font-weight: 700; padding: 15px; border-radius: 999px;
+  }
+  .send:active { transform: scale(.99); }
+  .hint { margin-top: 12px; font-size: .82rem; color: var(--muted); min-height: 1.4em; }
+
+  /* ===== Dock ===== */
+  .dock {
+    position: fixed; left: 50%; transform: translateX(-50%);
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    display: flex; gap: 10px; padding: 10px;
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow);
+  }
+  .dock a {
+    width: 48px; height: 48px; border-radius: 50%; background: var(--surface-2);
+    display: grid; place-items: center; position: relative;
+  }
+  .dock a[aria-current="page"] { background: var(--red); color: var(--on-red); }
+  .dock a:hover:not([aria-current]) { background: var(--line); }
+
+  /* ===== Desktop / tablet ===== */
+  @media (min-width: 900px) {
+    body { display: grid; place-items: center; padding: 32px 32px 110px; }
+    .window {
+      grid-template-columns: 230px 1fr;
+      min-height: 0; width: min(1040px, 100%); height: min(720px, calc(100dvh - 160px));
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 28px; overflow: hidden; box-shadow: var(--shadow);
+    }
+    .sidebar {
+      display: flex; flex-direction: column; gap: 4px; padding: 22px 14px;
+      background: var(--surface-2); border-right: 1px solid var(--line); overflow-y: auto;
+    }
+    .sidebar .dots { display: flex; gap: 7px; padding: 0 10px 18px; }
+    .sidebar .dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--line); display: block; }
+    .sidebar .dots i:first-child { background: var(--red); }
+    .sidebar h3 { font-size: .75rem; font-weight: 500; color: var(--muted); padding: 14px 12px 6px; }
+    .sidebar a { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 12px; font-size: .92rem; }
+    .sidebar a svg.i { width: 18px; height: 18px; }
+    .sidebar a:hover { background: color-mix(in srgb, var(--ink) 7%, transparent); }
+    .sidebar a[aria-current="page"] { background: var(--ink); color: var(--bg); }
+    .main { max-width: none; margin: 0; padding: 32px 40px 40px; overflow-y: auto; background: var(--bg); }
+    .back { display: none; }
+    .topbar { margin-bottom: 20px; }
+    .widgets { grid-template-columns: repeat(3, 1fr); }
+    .w.wide { grid-column: span 3; }
+    .card { border-radius: 28px; }
+    .dock { bottom: 24px; }
+    .dock a { width: 52px; height: 52px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ikon -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></symbol>
+  <symbol id="user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></symbol>
+  <symbol id="grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+  <symbol id="mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/></symbol>
+  <symbol id="chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="cam" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="4"/><circle cx="12" cy="13" r="3.5"/><circle cx="17.5" cy="9.5" r=".6"/></symbol>
+  <symbol id="in" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10v7M8 7v.01M12 17v-4a2.5 2.5 0 015 0v4M12 10v7"/></symbol>
+  <symbol id="code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+  <symbol id="back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="3"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/></symbol>
+  <symbol id="phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></symbol>
+</svg>
+
+<div class="window">
+
+  <aside class="sidebar" aria-label="Navigasi">
+    <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <h3>Favorit</h3>
+    <a href="index.html"><svg class="i"><use href="#home"/></svg>Beranda</a>
+    <a href="profil.html"><svg class="i"><use href="#user"/></svg>Profil</a>
+    <a href="portofolio.html"><svg class="i"><use href="#grid"/></svg>Portofolio</a>
+    <a href="kontak.html" aria-current="page"><svg class="i"><use href="#mail"/></svg>Kontak</a>
+    <h3>Lokasi</h3>
+    <a href="index.html#drawer"><svg class="i"><use href="#grid"/></svg>Semua aplikasi</a>
+    <h3>Tag</h3>
+    <a href="#form"><svg class="i"><use href="#chat"/></svg>Kirim pesan</a>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <a class="back" href="index.html" aria-label="Kembali ke beranda"><svg class="i"><use href="#back"/></svg></a>
+      <span class="status">Terbuka untuk proyek</span>
+    </div>
+
+    <h1>Kontak</h1>
+    <p class="lead">Ada proyek, kolaborasi, atau sekadar ingin menyapa? Pilih jalur yang paling nyaman. Balasan biasanya datang dalam 1–2 hari kerja.</p>
+
+    <section class="widgets" aria-label="Jalur kontak">
+      <!-- GANTI data placeholder di bawah dengan data aslimu -->
+      <button class="w wide" type="button" id="copyMail" data-copy="nama@email.com">
+        <span class="ico"><svg class="i"><use href="#mail"/></svg></span>
+        <span class="txt"><small>Email</small><strong>nama@email.com</strong></span>
+        <span class="act" id="copyLabel">Salin</span>
+      </button>
+
+      <a class="w" href="https://wa.me/6281200000000" target="_blank" rel="noopener">
+        <span class="ico"><svg class="i"><use href="#phone"/></svg></span>
+        <span><small>WhatsApp</small><strong>+62 812-0000-0000</strong></span>
+      </a>
+      <a class="w" href="https://instagram.com/username" target="_blank" rel="noopener">
+        <span class="ico"><svg class="i"><use href="#cam"/></svg></span>
+        <span><small>Instagram</small><strong>@username</strong></span>
+      </a>
+      <a class="w" href="https://linkedin.com/in/username" target="_blank" rel="noopener">
+        <span class="ico"><svg class="i"><use href="#in"/></svg></span>
+        <span><small>LinkedIn</small><strong>/in/username</strong></span>
+      </a>
+      <a class="w" href="https://github.com/username" target="_blank" rel="noopener">
+        <span class="ico"><svg class="i"><use href="#code"/></svg></span>
+        <span><small>GitHub</small><strong>@username</strong></span>
+      </a>
+    </section>
+
+    <section class="card" id="form" aria-labelledby="formTitle">
+      <h2 id="formTitle">Kirim pesan</h2>
+      <p>Pesan akan dibuka di aplikasi email kamu, siap dikirim.</p>
+      <form id="contactForm" novalidate>
+        <label for="nama">Nama</label>
+        <input id="nama" name="nama" type="text" autocomplete="name" required>
+
+        <label for="email">Email kamu</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+
+        <label for="pesan">Pesan</label>
+        <textarea id="pesan" name="pesan" required></textarea>
+
+        <button class="send" type="submit">Kirim pesan</button>
+        <div class="hint" id="hint" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+</div>
+
+<nav class="dock" aria-label="Dock">
+  <a href="index.html" aria-label="Beranda"><svg class="i"><use href="#home"/></svg></a>
+  <a href="profil.html" aria-label="Profil"><svg class="i"><use href="#user"/></svg></a>
+  <a href="portofolio.html" aria-label="Portofolio"><svg class="i"><use href="#grid"/></svg></a>
+  <a href="kontak.html" aria-label="Kontak" aria-current="page"><svg class="i"><use href="#mail"/></svg></a>
+</nav>
+
+<script>
+  var TUJUAN = "nama@email.com"; // ganti dengan emailmu
+
+  // Salin email
+  var copyBtn = document.getElementById("copyMail");
+  var copyLabel = document.getElementById("copyLabel");
+  copyBtn.addEventListener("click", function () {
+    var text = copyBtn.dataset.copy;
+    var done = function () {
+      copyLabel.textContent = "Tersalin";
+      setTimeout(function () { copyLabel.textContent = "Salin"; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { window.location.href = "mailto:" + text; });
+    } else {
+      window.location.href = "mailto:" + text;
+    }
+  });
+
+  // Formulir -> mailto
+  var form = document.getElementById("contactForm");
+  var hint = document.getElementById("hint");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var nama = form.nama.value.trim();
+    var email = form.email.value.trim();
+    var pesan = form.pesan.value.trim();
+    if (!nama || !email || !pesan) {
+      hint.textContent = "Lengkapi nama, email, dan pesan dulu.";
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      hint.textContent = "Format email belum benar. Contoh: nama@domain.com";
+      return;
+    }
+    var subjek = "Pesan dari " + nama;
+    var isi = pesan + "\n\n— " + nama + " (" + email + ")";
+    window.location.href = "mailto:" + TUJUAN + "?subject=" + encodeURIComponent(subjek) + "&body=" + encodeURIComponent(isi);
+    hint.textContent = "Membuka aplikasi email kamu…";
+  });
+</script>
+</body>
+</html>
